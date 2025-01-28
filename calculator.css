@@ -48,3 +48,23 @@ body {
 .btn:hover {
     background-color: #0056b3; /* Darker color on hover for buttons */
 }
+
+#homeicon {
+    width: 22px;
+    height: 20px;
+}
+
+.buttonicon {
+    display: inline-block;
+    padding: 5px;
+    font-size: 1em;
+    border: none;
+    border-radius: 50%; /* Rounded corners */
+    background-color: whitesmoke; /* Base color (blue) */
+    color: white;
+    text-decoration: none; /* Remove underline from anchor */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 5px;
+}
+
