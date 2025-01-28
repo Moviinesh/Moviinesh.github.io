@@ -13,7 +13,7 @@ const inputContainer = document.getElementById('inputContainer');
 const hoursInput = document.getElementById('hoursInput');
 const minutesInput = document.getElementById('minutesInput');
 const secondsInput = document.getElementById('secondsInput');
-const alarmSound = document.getElementById('alarmSound'); // Get the audio element
+const alarmSound = document.getElementById('alarmSound'); // Get audio element
 const stopAlarmBtn = document.getElementById('stopAlarmBtn'); // Stop alarm button
 const dateTimeElement = document.getElementById('dateTime'); // DateTime display
 
@@ -33,7 +33,7 @@ function updateDateTime() {
     dateTimeElement.textContent = now.toLocaleString('en-US', options); // Format the date and time
 }
 
-// Call this function initially to set the date/time on page load
+// Call this function to set the date/time on page load
 updateDateTime();
 
 // Update date and time every second
