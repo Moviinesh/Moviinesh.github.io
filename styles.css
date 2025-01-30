@@ -63,9 +63,8 @@ body {
 
 .thing-container{
     display: block;
-    margin: 0 auto;
+    padding: 0 auto;
     padding: 15px;
-    background-color: whitesmoke;
 }   
 
 .photoofmyself{
@@ -79,3 +78,23 @@ body {
     display: block;
     margin: 0 auto;
 }
+
+
+.buttonidk {
+    display: inline-block; /* Make anchor behave like a block element */
+    padding: 5px 10px; /* Adjusted padding for smaller buttons */
+    font-size: 1em; /* Font size */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: rgba(60, 158, 60, 0.719); /* Base color (blue) */
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline from anchor */
+    cursor: pointer; /* Show pointer on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    margin: 3px; /* Space between buttons */
+}
+
+.title-color{
+    color: rgb(99, 93, 93);
+}
+
