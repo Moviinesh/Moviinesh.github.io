@@ -52,6 +52,13 @@ p {
     background-color: black;
 }
 
+#homeicon {
+    width: 22px;
+    /* Size of the icon */
+    height: 22px;
+    /* Size of the icon */
+}
+
 #mouth {
     position: absolute;
     width: 65%;
