@@ -57,6 +57,8 @@ p {
     /* Size of the icon */
     height: 22px;
     /* Size of the icon */
+    background-color: #007BFF;
+
 }
 
 #mouth {
@@ -91,4 +93,27 @@ p {
     width: 30%;
     height: 7%;
     z-index: 100000000000;
+}
+
+#homeButton {
+    position: fixed;
+    /* Use fixed positioning */
+    top: 20px;
+    /* Distance from the top of the screen */
+    left: 20px;
+    /* Distance from the left of the screen */
+    width: 40px;
+    /* Set width of the home button */
+    height: 40px;
+    /* Set height of the home button */
+    display: flex;
+    /* Use flexbox to center icon */
+    justify-content: center;
+    /* Center the icon horizontally */
+    align-items: center;
+    /* Center the icon vertically */
+    background-color: #007BFF;
+    /* Button background color */
+    border-radius: 50%;
+    /* Perfect circle */
 }
