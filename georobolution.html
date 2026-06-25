@@ -1,0 +1,684 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.gw{background:#0d1b2a;border-radius:12px;overflow:hidden;font-family:var(--font-sans);min-height:580px;position:relative}
+.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;background:#fff;border-radius:50%;animation:tw 3s infinite alternate}
+@keyframes tw{from{opacity:.15}to{opacity:.85}}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.1);position:relative;z-index:10}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-ic{width:34px;height:34px;background:#1a3a5c;border:1px solid rgba(79,142,247,.4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-t{color:#fff;font-size:15px;font-weight:500;line-height:1.1}
+.logo-s{color:#6a9fd8;font-size:10px}
+.hdr-r{display:flex;gap:7px;align-items:center}
+.ib{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#9bbfe0;padding:5px 10px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:5px;transition:background .2s}
+.ib:hover{background:rgba(255,255,255,.14);color:#fff}
+.ib i{font-size:15px}
+.timer-box{background:rgba(0,0,0,.3);border:1px solid rgba(247,100,100,.3);border-radius:8px;padding:5px 12px;display:flex;align-items:center;gap:6px;color:#f78080;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.timer-box.warn{border-color:rgba(247,100,100,.7);color:#ff5555;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.screen{display:none;padding:16px;position:relative;z-index:5}
+.screen.active{display:block}
+
+/* WELCOME */
+.wtitle{text-align:center;font-size:28px;font-weight:500;background:linear-gradient(135deg,#4f8ef7,#a259f7,#f7594f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px}
+.wsub{text-align:center;color:#6a9fd8;font-size:12px;margin-bottom:14px}
+.robot-showcase{display:flex;justify-content:center;margin:8px 0 16px}
+.lvl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.lc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:12px 10px;text-align:center;cursor:pointer;transition:transform .2s,background .2s}
+.lc:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.lc.locked{opacity:.35;cursor:not-allowed;pointer-events:none}
+.lc-num{font-size:20px;margin-bottom:3px}
+.lc-t{color:#fff;font-size:12px;font-weight:500}
+.lc-d{color:#6a9fd8;font-size:10px;margin-top:2px}
+.lc-b{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;margin-top:5px}
+.bb{background:rgba(79,142,247,.2);color:#7ba8e0;border:1px solid rgba(79,142,247,.3)}
+.bp{background:rgba(162,89,247,.2);color:#c4a0f7;border:1px solid rgba(162,89,247,.3)}
+.bo{background:rgba(247,140,79,.2);color:#f7b879;border:1px solid rgba(247,140,79,.3)}
+.sbtn{width:100%;padding:11px;border:none;border-radius:8px;background:#2457a4;color:#fff;font-size:15px;font-weight:500;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+.sbtn:hover{opacity:.85}
+
+/* GAME */
+.g-lay{display:grid;grid-template-columns:1fr 130px;gap:12px}
+.pb-wrap{background:rgba(255,255,255,.07);border-radius:20px;height:7px;margin-bottom:12px;overflow:hidden}
+.pb-fill{height:100%;border-radius:20px;background:#2457a4;transition:width .5s ease}
+.pb-lbl{display:flex;justify-content:space-between;color:#6a9fd8;font-size:10px;margin-bottom:4px}
+.qcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px}
+.ql{font-size:10px;color:#6a9fd8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.qt{color:#fff;font-size:18px;font-weight:500;margin-bottom:12px;text-align:center;line-height:1.4}
+.lvltag{display:inline-flex;align-items:center;gap:4px;background:rgba(162,89,247,.2);border:1px solid rgba(162,89,247,.3);color:#c4a0f7;font-size:10px;padding:3px 9px;border-radius:20px;margin-bottom:10px}
+
+/* GeomTech working area */
+.work-area{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;margin-bottom:12px}
+.work-title{color:#7ba8e0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.work-steps{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.ws{display:flex;align-items:center;gap:8px}
+.wsn{width:20px;height:20px;border-radius:50%;background:rgba(79,142,247,.25);color:#7ba8e0;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wsl{color:#aac4e8;font-size:12px;flex:1}
+.wsi{background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.12);border-radius:8px;padding:8px;text-align:center;cursor:pointer;color:#7ba8e0;font-size:11px;transition:background .2s}
+.wsi:hover{background:rgba(79,142,247,.1)}
+.gt-canvas-wrap{text-align:center;margin:8px 0}
+.wfill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px}
+.wfill-label{color:#7ba8e0;font-size:11px;margin-bottom:6px}
+.corner-inputs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.corner-in{width:38px;height:38px;background:rgba(162,89,247,.15);border:1px solid rgba(162,89,247,.3);border-radius:8px;color:#fff;font-size:14px;text-align:center;font-weight:500}
+.corner-in:focus{outline:none;border-color:#a259f7}
+
+.ans-row{display:flex;gap:7px;align-items:center}
+.ans-in{flex:1;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:8px!important;color:#fff!important;font-size:18px!important;text-align:center;padding:9px!important}
+.ans-in::placeholder{color:rgba(255,255,255,.25)}
+.cbtn{padding:9px 16px;border:none;border-radius:8px;background:#2457a4;color:#fff;font-size:13px;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;gap:5px}
+.cbtn:hover{opacity:.85}
+.fb{text-align:center;font-size:13px;margin-top:8px;min-height:18px;font-weight:500}
+.fb.ok{color:#4de89b}
+.fb.no{color:#f76a6a}
+
+/* sidebar */
+.sidebar-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px;text-align:center;margin-bottom:8px}
+.sc-t{color:#6a9fd8;font-size:10px;margin-bottom:6px}
+.score-d{color:#fff;font-size:22px;font-weight:500}
+.score-l{color:#6a9fd8;font-size:10px}
+
+/* RESULTS */
+.rc{text-align:center;padding:16px 0}
+.rtrophy{font-size:44px;margin-bottom:10px}
+.rtitle{color:#fff;font-size:22px;font-weight:500;margin-bottom:3px}
+.rsub{color:#6a9fd8;font-size:12px;margin-bottom:16px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.sc2{background:rgba(255,255,255,.05);border-radius:8px;padding:12px}
+.sc2-n{font-size:20px;font-weight:500;color:#fff}
+.sc2-l{font-size:10px;color:#6a9fd8;margin-top:2px}
+.nbtn{padding:11px 22px;border:none;border-radius:8px;background:#2457a4;color:#fff;font-size:14px;cursor:pointer;margin:0 auto;display:block}
+.nbtn:hover{opacity:.85}
+
+/* TIMEOUT */
+.to-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;text-align:center;padding:20px}
+.to-icon{font-size:48px;margin-bottom:14px}
+.to-title{color:#fff;font-size:22px;font-weight:500;margin-bottom:6px}
+.to-sub{color:#6a9fd8;font-size:13px;margin-bottom:20px}
+.pw-box{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:16px;width:260px;margin:0 auto}
+.pw-label{color:#7ba8e0;font-size:12px;margin-bottom:8px}
+.pw-in{width:100%;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:8px!important;color:#fff!important;font-size:18px!important;text-align:center;padding:9px!important;letter-spacing:4px}
+.pw-btn{width:100%;margin-top:8px;padding:10px;border:none;border-radius:8px;background:#2457a4;color:#fff;font-size:14px;cursor:pointer}
+.pw-err{color:#f76a6a;font-size:12px;margin-top:6px;min-height:16px}
+
+/* MODAL */
+.mbg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.8);z-index:50;align-items:center;justify-content:center;border-radius:12px}
+.mbg.open{display:flex}
+.mbox{background:#111e2e;border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:20px;max-width:460px;width:90%;max-height:78vh;overflow-y:auto}
+.mt{color:#fff;font-size:17px;font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.mcl{margin-left:auto;background:none;border:none;color:#6a9fd8;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:6px}
+.mcl:hover{background:rgba(255,255,255,.1)}
+.hs{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.hh{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;border-bottom:1px solid transparent;transition:background .2s}
+.hh:hover,.hh.open{background:rgba(255,255,255,.04)}
+.hh.open{border-bottom-color:rgba(255,255,255,.09)}
+.hic{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.htt{color:#fff;font-size:13px;font-weight:500;flex:1}
+.harr{color:#6a9fd8;font-size:13px;transition:transform .2s}
+.hh.open .harr{transform:rotate(180deg)}
+.hbd{padding:12px 14px;display:none}
+.hbd.open{display:block}
+.hbd p{font-size:12px;line-height:1.7;color:#9bbfe0;margin-bottom:7px}
+.hbd p:last-child{margin-bottom:0}
+.hbd strong{color:#fff;font-weight:500}
+.lp{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:9px 12px;margin-bottom:7px}
+.rpr{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}
+.rpt{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:4px 9px;font-size:11px;color:#9bbfe0;display:flex;align-items:center;gap:4px}
+</style>
+
+<div class="gw" id="app">
+<div class="stars" id="stars"></div>
+
+<div class="mbg" id="helpModal">
+<div class="mbox">
+  <div class="mt"><i class="ti ti-info-circle" aria-hidden="true"></i> How to play GeoRoboLution
+    <button class="mcl" onclick="cm('helpModal')"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="hs">
+    <div class="hh open" onclick="th(this)">
+      <div class="hic" style="background:rgba(79,142,247,.18);color:#7ba8e0">🎯</div>
+      <div class="htt">What is GeoRoboLution?</div>
+      <i class="ti ti-chevron-down harr" aria-hidden="true"></i>
+    </div>
+    <div class="hbd open">
+      <p>GeoRoboLution is a maths adventure where you <strong>build a robot</strong> by solving questions! You have <strong>30 minutes</strong> to complete all 3 levels.</p>
+      <p>Each level uses the <strong>GeomTech method</strong> — you must show your working before entering your answer!</p>
+    </div>
+  </div>
+  <div class="hs">
+    <div class="hh" onclick="th(this)">
+      <div class="hic" style="background:rgba(162,89,247,.18);color:#c4a0f7">📐</div>
+      <div class="htt">The GeomTech method</div>
+      <i class="ti ti-chevron-down harr" aria-hidden="true"></i>
+    </div>
+    <div class="hbd">
+      <p>GeomTech uses shapes to multiply. For <strong>2 × 3</strong>: draw a shape with 3 corners (matching the second number). Place 2 dots at each corner (the first number). Count all the dots — that is your answer!</p>
+      <p>In every level, you will see a GeomTech working box. <strong>Fill in the corner values</strong> first, then enter your final answer.</p>
+    </div>
+  </div>
+  <div class="hs">
+    <div class="hh" onclick="th(this)">
+      <div class="hic" style="background:rgba(77,232,155,.12);color:#4de89b">🏆</div>
+      <div class="htt">The 3 levels</div>
+      <i class="ti ti-chevron-down harr" aria-hidden="true"></i>
+    </div>
+    <div class="hbd">
+      <div class="lp"><div style="font-size:18px">⚡</div><div><div style="color:#fff;font-size:12px;font-weight:500">Level 1 — Multiply with GeomTech</div><div style="color:#6a9fd8;font-size:11px">7 multiplication questions using shapes</div></div></div>
+      <div class="lp"><div style="font-size:18px">🧩</div><div><div style="color:#fff;font-size:12px;font-weight:500">Level 2 — Problem Solving</div><div style="color:#6a9fd8;font-size:11px">3 word problems — find the multiplication hidden inside</div></div></div>
+      <div class="lp"><div style="font-size:18px">🚀</div><div><div style="color:#fff;font-size:12px;font-weight:500">Level 3 — Think Deeper (HOTS)</div><div style="color:#6a9fd8;font-size:11px">3 higher-order questions — show your reasoning</div></div></div>
+    </div>
+  </div>
+  <div class="hs">
+    <div class="hh" onclick="th(this)">
+      <div class="hic" style="background:rgba(247,140,79,.18);color:#f7b879">🤖</div>
+      <div class="htt">Build your robot</div>
+      <i class="ti ti-chevron-down harr" aria-hidden="true"></i>
+    </div>
+    <div class="hbd">
+      <p>Every correct answer earns a robot part. The home screen shows your robot with <strong>silhouettes</strong> for parts not yet earned.</p>
+      <div class="rpr">
+        <div class="rpt"><i class="ti ti-robot" aria-hidden="true"></i> Level 1 → Head, antenna, eyes</div>
+        <div class="rpt"><i class="ti ti-activity" aria-hidden="true"></i> Level 2 → Body, arms, hands</div>
+        <div class="rpt"><i class="ti ti-shoe" aria-hidden="true"></i> Level 3 → Legs, feet, power core</div>
+      </div>
+    </div>
+  </div>
+  <div class="hs">
+    <div class="hh" onclick="th(this)">
+      <div class="hic" style="background:rgba(77,232,155,.1);color:#4de89b">⏱</div>
+      <div class="htt">Timer & password</div>
+      <i class="ti ti-chevron-down harr" aria-hidden="true"></i>
+    </div>
+    <div class="hbd">
+      <p>You have <strong>30 minutes</strong> to complete the game. The timer is shown at the top. When it turns red, you are running low on time!</p>
+      <p>If the timer runs out, you will need to enter a <strong>password</strong> from your teacher to continue.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-ic">🤖</div>
+    <div>
+      <div class="logo-t">GeoRoboLution</div>
+      <div class="logo-s">Geometry · Robo · Evolution</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <div class="timer-box" id="timerBox"><i class="ti ti-clock" aria-hidden="true"></i><span id="timerDisplay">30:00</span></div>
+    <button class="ib" onclick="om('helpModal')"><i class="ti ti-info-circle" aria-hidden="true"></i> Help</button>
+    <button class="ib" id="homeBtn" onclick="goHome()" style="display:none"><i class="ti ti-home" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<!-- WELCOME -->
+<div class="screen active" id="welcomeScreen">
+  <div class="wtitle">GeoRoboLution</div>
+  <div class="wsub">Build your robot — 30 minutes — show your GeomTech working!</div>
+  <div class="robot-showcase"><svg id="homeRobot" width="130" height="220" viewBox="0 0 130 220"></svg></div>
+  <div class="lvl-grid">
+    <div class="lc" onclick="startLevel(1)">
+      <div class="lc-num">⚡</div>
+      <div class="lc-t">Level 1</div>
+      <div class="lc-d">Multiply with GeomTech</div>
+      <span class="lc-b bb">7 questions</span>
+    </div>
+    <div class="lc locked" id="lc2">
+      <div class="lc-num">🧩</div>
+      <div class="lc-t">Level 2</div>
+      <div class="lc-d">Problem Solving</div>
+      <span class="lc-b bp">3 questions</span>
+    </div>
+    <div class="lc locked" id="lc3">
+      <div class="lc-num">🚀</div>
+      <div class="lc-t">Level 3</div>
+      <div class="lc-d">HOTS Challenges</div>
+      <span class="lc-b bo">3 questions</span>
+    </div>
+  </div>
+  <button class="sbtn" onclick="startLevel(1)"><i class="ti ti-player-play" aria-hidden="true"></i> Start Level 1</button>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="gameScreen">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <div class="lvltag" id="lvlTag"><i class="ti ti-star" aria-hidden="true"></i> Level 1</div>
+    <div style="color:#6a9fd8;font-size:11px" id="qCtr">Q 1 / 7</div>
+  </div>
+  <div class="pb-lbl"><span id="pLbl">Progress</span><span id="pPct">0%</span></div>
+  <div class="pb-wrap"><div class="pb-fill" id="pBar" style="width:0%"></div></div>
+  <div class="g-lay">
+    <div>
+      <div class="qcard">
+        <div class="ql" id="qLbl">Solve using GeomTech</div>
+        <div class="qt" id="qTxt">2 × 3 = ?</div>
+        <div class="work-area">
+          <div class="work-title"><i class="ti ti-pencil" aria-hidden="true"></i> GeomTech working — do this first!</div>
+          <div class="gt-canvas-wrap"><svg id="gtShape" width="130" height="130" viewBox="0 0 130 130"></svg></div>
+          <div class="wfill" id="cornerFillArea">
+            <div class="wfill-label" id="cornerLabel">Fill in each corner with the group value:</div>
+            <div class="corner-inputs" id="cornerInputs"></div>
+            <div style="color:#6a9fd8;font-size:11px;margin-top:7px;text-align:center" id="cornerHint"></div>
+          </div>
+        </div>
+        <div class="ans-row">
+          <input class="ans-in" id="ansIn" type="number" placeholder="Final answer" min="0" max="999" onkeydown="if(event.key==='Enter')ca()"/>
+          <button class="cbtn" onclick="ca()"><i class="ti ti-check" aria-hidden="true"></i> Check</button>
+        </div>
+        <div class="fb" id="fb"></div>
+      </div>
+    </div>
+    <div>
+      <div class="sidebar-card">
+        <div class="sc-t">Your robot</div>
+        <svg id="sideRobot" width="110" height="175" viewBox="0 0 110 175"></svg>
+      </div>
+      <div class="sidebar-card">
+        <div class="score-d" id="scoreN">0</div>
+        <div class="score-l">points</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="resultScreen">
+  <div class="rc">
+    <div class="rtrophy" id="rtrophy">🏆</div>
+    <div class="rtitle" id="rtitle">Level complete!</div>
+    <div class="rsub" id="rsub">Great work!</div>
+    <div class="sg">
+      <div class="sc2"><div class="sc2-n" id="sc2c">0</div><div class="sc2-l">Correct</div></div>
+      <div class="sc2"><div class="sc2-n" id="sc2t">0</div><div class="sc2-l">Total</div></div>
+      <div class="sc2"><div class="sc2-n" id="sc2s">0</div><div class="sc2-l">Points</div></div>
+    </div>
+    <div style="display:flex;justify-content:center;margin:12px 0">
+      <svg id="resultRobot" width="120" height="200" viewBox="0 0 120 200"></svg>
+    </div>
+    <button class="nbtn" id="nBtn" onclick="nextLvl()">Continue →</button>
+  </div>
+</div>
+
+<!-- TIMEOUT -->
+<div class="screen" id="timeoutScreen">
+  <div class="to-wrap">
+    <div class="to-icon">⏰</div>
+    <div class="to-title">Time is up!</div>
+    <div class="to-sub">Ask your teacher for the password to keep going.</div>
+    <div class="pw-box">
+      <div class="pw-label">Enter teacher password:</div>
+      <input class="pw-in" id="pwIn" type="password" placeholder="••••" maxlength="6"
+        onkeydown="if(event.key==='Enter')checkPw()"/>
+      <button class="pw-btn" onclick="checkPw()">Unlock</button>
+      <div class="pw-err" id="pwErr"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const QUESTIONS = {
+  1:[
+    {q:"2 × 3 = ?",a:6,n1:2,n2:3,type:'mult'},
+    {q:"4 × 2 = ?",a:8,n1:4,n2:2,type:'mult'},
+    {q:"3 × 5 = ?",a:15,n1:3,n2:5,type:'mult'},
+    {q:"6 × 2 = ?",a:12,n1:6,n2:2,type:'mult'},
+    {q:"4 × 3 = ?",a:12,n1:4,n2:3,type:'mult'},
+    {q:"5 × 4 = ?",a:20,n1:5,n2:4,type:'mult'},
+    {q:"7 × 3 = ?",a:21,n1:7,n2:3,type:'mult'}
+  ],
+  2:[
+    {q:"There are 4 bags. Each bag has 5 apples. How many apples in total?",a:20,n1:4,n2:5,type:'word'},
+    {q:"A robot has 3 arms. Each arm has 6 fingers. How many fingers altogether?",a:18,n1:3,n2:6,type:'word'},
+    {q:"There are 7 rows of seats. Each row has 4 seats. How many seats are there?",a:28,n1:7,n2:4,type:'word'}
+  ],
+  3:[
+    {q:"If 3 × 4 = 12, what is 4 × 3? Why are they the same? (Enter the answer number)",a:12,n1:4,n2:3,type:'hots'},
+    {q:"A box holds 6 toys. You need 24 toys. How many boxes? (Think: 6 × ? = 24)",a:4,n1:6,n2:4,type:'hots'},
+    {q:"Which is bigger: 5 × 4 or 4 × 6? Enter how much bigger the larger one is.",a:4,n1:4,n2:6,type:'hots'}
+  ]
+};
+
+let curLvl=1, curQ=0, score=0, correct=0;
+let unlocked=[true,false,false];
+let parts={antenna:false,head:false,leye:false,reye:false,body:false,core:false,larm:false,rarm:false,lhand:false,rhand:false,lleg:false,rleg:false,lfoot:false,rfoot:false};
+let timerSec=1800, timerInt=null, timedOut=false, resumeState=null;
+
+function startTimer(){
+  if(timerInt) clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    timerSec--;
+    updateTimerDisplay();
+    if(timerSec<=0){clearInterval(timerInt);handleTimeout();}
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timerSec/60), s=timerSec%60;
+  document.getElementById('timerDisplay').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const tb=document.getElementById('timerBox');
+  if(timerSec<=120) tb.classList.add('warn'); else tb.classList.remove('warn');
+}
+
+function handleTimeout(){
+  timedOut=true;
+  resumeState={lvl:curLvl,q:curQ,score:score,correct:correct};
+  showScreen('timeoutScreen');
+}
+
+function checkPw(){
+  const v=document.getElementById('pwIn').value.trim();
+  const err=document.getElementById('pwErr');
+  if(v==='3927'){
+    err.textContent='';
+    document.getElementById('pwIn').value='';
+    timedOut=false;
+    timerSec=600;
+    startTimer();
+    if(resumeState){curLvl=resumeState.lvl;curQ=resumeState.q;score=resumeState.score;correct=resumeState.correct;}
+    showScreen('gameScreen');
+    renderQ();
+  } else {
+    err.textContent='Wrong password — ask your teacher!';
+  }
+}
+
+function om(id){document.getElementById(id).classList.add('open')}
+function cm(id){document.getElementById(id).classList.remove('open')}
+function th(h){h.classList.toggle('open');h.nextElementSibling.classList.toggle('open')}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome(){
+  showScreen('welcomeScreen');
+  document.getElementById('homeBtn').style.display='none';
+  drawHomeRobot();
+  updateUnlockCards();
+}
+
+function updateUnlockCards(){
+  if(unlocked[1]){const c=document.getElementById('lc2');c.classList.remove('locked');c.onclick=()=>startLevel(2);}
+  if(unlocked[2]){const c=document.getElementById('lc3');c.classList.remove('locked');c.onclick=()=>startLevel(3);}
+}
+
+function startLevel(lvl){
+  curLvl=lvl; curQ=0; correct=0;
+  document.getElementById('homeBtn').style.display='flex';
+  showScreen('gameScreen');
+  updateLvlUI();
+  renderQ();
+  if(!timerInt||timedOut) startTimer();
+}
+
+function updateLvlUI(){
+  const lnames=['','⚡ Level 1','🧩 Level 2','🚀 Level 3'];
+  document.getElementById('lvlTag').innerHTML=`<i class="ti ti-star" aria-hidden="true"></i> ${lnames[curLvl]}`;
+  const qlbls=['','Solve using GeomTech','Read carefully — find the multiplication','Think deeper — show your working'];
+  document.getElementById('qLbl').textContent=qlbls[curLvl];
+}
+
+function renderQ(){
+  const qs=QUESTIONS[curLvl];
+  const tot=qs.length;
+  document.getElementById('qCtr').textContent=`Q ${curQ+1} / ${tot}`;
+  const pct=Math.round((curQ/tot)*100);
+  document.getElementById('pBar').style.width=pct+'%';
+  document.getElementById('pPct').textContent=pct+'%';
+  const q=qs[curQ];
+  document.getElementById('qTxt').textContent=q.q;
+  document.getElementById('ansIn').value='';
+  document.getElementById('fb').textContent='';
+  document.getElementById('fb').className='fb';
+  buildGeomTech(q.n1, q.n2, curLvl, q);
+  drawSideRobot();
+  document.getElementById('scoreN').textContent=score;
+}
+
+function buildGeomTech(n1, n2, lvl, q){
+  const shape=document.getElementById('gtShape');
+  const sides=Math.min(n2,8);
+  const cx=65,cy=65,r=46;
+  const pts=[];
+  for(let i=0;i<sides;i++){
+    const a=(i/sides)*Math.PI*2-Math.PI/2;
+    pts.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);
+  }
+  let svg=`<polygon points="${pts.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}" fill="rgba(79,142,247,0.1)" stroke="#4f8ef7" stroke-width="1.5"/>`;
+  pts.forEach(([px,py],i)=>{
+    svg+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="10" fill="rgba(162,89,247,0.2)" stroke="#a259f7" stroke-width="1"/>`;
+    svg+=`<text x="${px.toFixed(1)}" y="${(py+4).toFixed(1)}" text-anchor="middle" fill="#c4a0f7" font-size="11" font-weight="500">C${i+1}</text>`;
+  });
+  svg+=`<text x="65" y="69" text-anchor="middle" fill="#7ba8e0" font-size="10">${n1}×${n2}</text>`;
+  shape.innerHTML=svg;
+
+  const ci=document.getElementById('cornerInputs');
+  const ch=document.getElementById('cornerHint');
+  const cl=document.getElementById('cornerLabel');
+  ci.innerHTML='';
+
+  if(lvl===1){
+    cl.textContent=`This shape has ${n2} corners. Each corner holds ${n1} group(s). Fill each corner box:`;
+    for(let i=0;i<sides;i++){
+      const inp=document.createElement('input');
+      inp.type='number';inp.className='corner-in';inp.placeholder=n1;
+      inp.dataset.expected=n1;
+      inp.id=`cin${i}`;
+      ci.appendChild(inp);
+    }
+    ch.textContent=`Hint: each corner should be ${n1}. Count them all to get your answer!`;
+  } else if(lvl===2){
+    cl.textContent=`Use GeomTech to model this problem. Shape has ${n2} corners, each worth ${n1}:`;
+    for(let i=0;i<sides;i++){
+      const inp=document.createElement('input');
+      inp.type='number';inp.className='corner-in';inp.placeholder=n1;
+      inp.dataset.expected=n1;inp.id=`cin${i}`;
+      ci.appendChild(inp);
+    }
+    ch.textContent=`Fill all ${sides} corners with ${n1}, then add them up!`;
+  } else {
+    cl.textContent=`Use GeomTech to explore this question. Shape corners = ${n2}, each group = ${n1}:`;
+    for(let i=0;i<sides;i++){
+      const inp=document.createElement('input');
+      inp.type='number';inp.className='corner-in';inp.placeholder='?';
+      inp.dataset.expected=n1;inp.id=`cin${i}`;
+      ci.appendChild(inp);
+    }
+    ch.textContent=`Think: ${n2} corners × each corner value = total. What is ${n1} × ${n2}?`;
+  }
+}
+
+function ca(){
+  const q=QUESTIONS[curLvl][curQ];
+  const val=parseInt(document.getElementById('ansIn').value);
+  const fb=document.getElementById('fb');
+  const sides=Math.min(q.n2,8);
+
+  let cornersOk=true;
+  for(let i=0;i<sides;i++){
+    const el=document.getElementById(`cin${i}`);
+    if(!el) continue;
+    const v=parseInt(el.value);
+    if(isNaN(v)||v!==parseInt(el.dataset.expected)){cornersOk=false;break;}
+  }
+
+  if(!cornersOk){
+    fb.textContent='Fill in all the corner boxes with the correct group value first!';
+    fb.className='fb no';
+    const ci=document.getElementById('cornerInputs');
+    ci.style.animation='none';
+    setTimeout(()=>ci.style.animation='',10);
+    return;
+  }
+
+  if(isNaN(val)){fb.textContent='Enter your final answer!';fb.className='fb no';return;}
+
+  if(val===q.a){
+    fb.textContent='Correct! +10 points';
+    fb.className='fb ok';
+    score+=10;correct++;
+    awardParts();
+    document.getElementById('scoreN').textContent=score;
+    drawSideRobot();
+    setTimeout(advQ,1000);
+  } else {
+    fb.textContent=`Not quite — you wrote ${val}. Check your corner boxes and try again!`;
+    fb.className='fb no';
+  }
+}
+
+function awardParts(){
+  if(curLvl===1){
+    if(!parts.antenna&&correct>=1) parts.antenna=true;
+    if(!parts.head&&correct>=2) parts.head=true;
+    if(!parts.leye&&correct>=3) parts.leye=true;
+    if(!parts.reye&&correct>=4) parts.reye=true;
+    if(!parts.body&&correct>=5) parts.body=true;
+    if(!parts.core&&correct>=6) parts.core=true;
+  } else if(curLvl===2){
+    if(!parts.larm&&correct>=1) parts.larm=true;
+    if(!parts.rarm&&correct>=2) parts.rarm=true;
+    if(!parts.lhand&&correct>=3) parts.lhand=true;
+    if(!parts.rhand&&correct>=3) parts.rhand=true;
+  } else {
+    if(!parts.lleg&&correct>=1) parts.lleg=true;
+    if(!parts.rleg&&correct>=2) parts.rleg=true;
+    if(!parts.lfoot&&correct>=3) parts.lfoot=true;
+    if(!parts.rfoot&&correct>=3) parts.rfoot=true;
+  }
+}
+
+function advQ(){
+  const qs=QUESTIONS[curLvl];
+  curQ++;
+  if(curQ>=qs.length) showResults();
+  else renderQ();
+}
+
+function showResults(){
+  showScreen('resultScreen');
+  const tot=QUESTIONS[curLvl].length;
+  document.getElementById('sc2c').textContent=correct;
+  document.getElementById('sc2t').textContent=tot;
+  document.getElementById('sc2s').textContent=score;
+  const pct=Math.round((correct/tot)*100);
+  let trophy='🏆',title='Level complete!',sub='Your robot is growing!';
+  if(pct===100){trophy='🌟';title='Perfect score!';sub='Your robot got all parts for this level!';}
+  else if(pct<50){trophy='🤔';title='Keep practising!';sub='Try again to earn more robot parts.';}
+  document.getElementById('rtrophy').textContent=trophy;
+  document.getElementById('rtitle').textContent=title;
+  document.getElementById('rsub').textContent=sub;
+  if(curLvl<3) unlocked[curLvl]=true;
+  const nb=document.getElementById('nBtn');
+  nb.textContent=curLvl===3?'Back to home →':`Go to Level ${curLvl+1} →`;
+  drawRobotSVG('resultRobot',parts,60,100,120);
+}
+
+function nextLvl(){
+  if(curLvl===3){goHome();return;}
+  startLevel(curLvl+1);
+}
+
+/* ---- ROBOT DRAWING ---- */
+function robotSVGString(parts,cx,headY,scale){
+  const s=scale||1;
+  const W=p=>p*s, H=p=>p*s;
+  const lit='rgba(79,142,247,0.88)';
+  const sil='rgba(255,255,255,0.07)';
+  const eyc='rgba(77,232,155,0.9)';
+  const cor='rgba(247,140,79,0.7)';
+  let h='';
+
+  const hy=headY;
+  const hx=cx;
+
+  if(parts.antenna){
+    h+=`<rect x="${hx-2}" y="${hy-22}" width="4" height="14" rx="2" fill="${lit}"/>`;
+    h+=`<circle cx="${hx}" cy="${hy-24}" r="4" fill="${cor}"/>`;
+  } else {
+    h+=`<rect x="${hx-2}" y="${hy-22}" width="4" height="14" rx="2" fill="${sil}"/>`;
+    h+=`<circle cx="${hx}" cy="${hy-24}" r="4" fill="${sil}"/>`;
+  }
+
+  const hfill=parts.head?lit:sil;
+  h+=`<rect x="${hx-22}" y="${hy-8}" width="44" height="36" rx="8" fill="${hfill}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>`;
+
+  const lefill=parts.leye?eyc:sil;
+  const refill=parts.reye?eyc:sil;
+  h+=`<circle cx="${hx-10}" cy="${hy+8}" r="6" fill="${lefill}"/>`;
+  h+=`<circle cx="${hx+10}" cy="${hy+8}" r="6" fill="${refill}"/>`;
+  h+=`<circle cx="${hx-10}" cy="${hy+8}" r="2.5" fill="rgba(0,0,0,0.5)"/>`;
+  h+=`<circle cx="${hx+10}" cy="${hy+8}" r="2.5" fill="rgba(0,0,0,0.5)"/>`;
+  h+=`<rect x="${hx-8}" y="${hy+18}" width="16" height="4" rx="2" fill="${parts.head?'rgba(77,232,155,0.4)':sil}"/>`;
+
+  const neck=hy+30;
+  h+=`<rect x="${hx-5}" y="${neck}" width="10" height="8" rx="3" fill="${hfill}"/>`;
+
+  const by=neck+8;
+  const bfill=parts.body?lit:sil;
+  h+=`<rect x="${hx-28}" y="${by}" width="56" height="52" rx="7" fill="${bfill}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+
+  const cfill=parts.core?cor:sil;
+  h+=`<rect x="${hx-14}" y="${by+10}" width="28" height="7" rx="3" fill="${cfill}"/>`;
+  h+=`<rect x="${hx-14}" y="${by+21}" width="28" height="7" rx="3" fill="${parts.core?'rgba(162,89,247,0.7)':sil}"/>`;
+  h+=`<rect x="${hx-14}" y="${by+32}" width="28" height="7" rx="3" fill="${parts.core?'rgba(77,232,155,0.5)':sil}"/>`;
+
+  const lafill=parts.larm?lit:sil;
+  const rafill=parts.rarm?lit:sil;
+  h+=`<rect x="${hx-50}" y="${by+4}" width="20" height="42" rx="7" fill="${lafill}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+  h+=`<rect x="${hx+30}" y="${by+4}" width="20" height="42" rx="7" fill="${rafill}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+
+  const lhfill=parts.lhand?lit:sil;
+  const rhfill=parts.rhand?lit:sil;
+  h+=`<rect x="${hx-54}" y="${by+44}" width="28" height="14" rx="6" fill="${lhfill}"/>`;
+  h+=`<rect x="${hx+26}" y="${by+44}" width="28" height="14" rx="6" fill="${rhfill}"/>`;
+
+  const ly=by+52;
+  const llf=parts.lleg?lit:sil;
+  const rlf=parts.rleg?lit:sil;
+  h+=`<rect x="${hx-24}" y="${ly}" width="18" height="46" rx="6" fill="${llf}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+  h+=`<rect x="${hx+6}" y="${ly}" width="18" height="46" rx="6" fill="${rlf}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+
+  const ffy=ly+44;
+  const lff=parts.lfoot?lit:sil;
+  const rff=parts.rfoot?lit:sil;
+  h+=`<rect x="${hx-30}" y="${ffy}" width="26" height="12" rx="5" fill="${lff}"/>`;
+  h+=`<rect x="${hx+4}" y="${ffy}" width="26" height="12" rx="5" fill="${rff}"/>`;
+
+  return h;
+}
+
+function drawRobotSVG(id, parts, cx, headY, viewW){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.innerHTML=robotSVGString(parts,cx,headY);
+}
+
+function drawHomeRobot(){
+  drawRobotSVG('homeRobot',parts,65,40,130);
+}
+function drawSideRobot(){
+  drawRobotSVG('sideRobot',parts,55,38,110);
+}
+
+function generateStars(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<35;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=Math.random()*2+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;
+    c.appendChild(s);
+  }
+}
+
+generateStars();
+startTimer();
+drawHomeRobot();
+updateUnlockCards();
+</script>
